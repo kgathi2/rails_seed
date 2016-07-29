@@ -1,0 +1,97 @@
+# user www-data;
+# user deploy  rvm;
+worker_processes 2;
+pid /run/nginx.pid;
+timer_resolution 500ms;
+worker_rlimit_nofile 10240;
+
+events {
+  worker_connections 10240;
+  multi_accept on;
+  accept_mutex on; # "on" if nginx worker_processes > 1
+}
+
+http {
+  sendfile on;
+  tcp_nopush on;
+  tcp_nodelay off;
+  keepalive_timeout 30;
+  types_hash_max_size 2048;
+  server_tokens off;
+  server_name_in_redirect off;
+  
+  client_body_timeout   10;
+  client_header_timeout 10;
+  client_max_body_size  50m;
+  client_body_buffer_size 128k;
+  
+  client_header_buffer_size 128;
+
+  default_type application/octet-stream;
+  
+
+  ##########FILES##############
+  open_file_cache           max=1000 inactive=20s;
+  open_file_cache_valid     30s;
+  open_file_cache_min_uses  2;
+  open_file_cache_errors    on;
+  
+
+  #######CACHE#################
+  ######Content caching#################
+  proxy_cache_path /var/lib/nginx/cache  levels=1:2  keys_zone=cache:80m inactive=1d  max_size=2500m;
+
+  proxy_cache_key "$scheme$request_method$host$request_uri";
+  
+  ######Globally enable proxy caching############
+  proxy_cache cache;
+  proxy_cache_valid  200 302  1d;
+  proxy_cache_valid  301      1d;
+  proxy_cache_valid  any      1m;
+  
+
+  ###### Logging Settings ##############
+  access_log /var/log/nginx/access.log;
+  # access_log /tmp/nginx.access.log combined;
+  error_log /var/log/nginx/error.log;
+  
+  ######Increase timeout to allow caching engine enough time to answer#####
+  proxy_connect_timeout 120;
+  proxy_read_timeout    120;
+  proxy_send_timeout    120;
+  
+  #####Slightly increase proxy memory buffer for faster responses
+  proxy_buffer_size           32k;
+  proxy_buffers               4 32k;
+  proxy_busy_buffers_size     64k;
+  proxy_temp_file_write_size  64k;
+
+  ##########COMPRESSION#################
+  gzip              on;
+  gzip_http_version 1.0;
+  gzip_disable      "MSIE [1-6]\.(?!.*SV1)";
+
+  ###########Slightly decrease a number and size of memory buffers used to store compressed data#################
+  gzip_buffers 4 16k;
+
+  ##########Slightly increase compression level (1 is default and the lowest, 9 is the highest)###############
+  gzip_comp_level 2;
+
+  ##########Compress everything no matter the size (default is 20 bytes)####
+  gzip_min_length 0;
+
+  #########Compress additional Content Types (default is only text/html)####
+  gzip_types text/plain text/css application/x-javascript text/xml application/xml application/xml+rss text/javascript;
+
+  ###########Enable compression for proxies as well, but do not compress everything. Otherwise we risk confusing remote proxies#######
+
+  gzip_proxied expired no-cache no-store private auth;
+  # gzip_proxied any;
+
+  # In /etc/nginx/
+  include conf.d/*.conf;
+  include mime.types;
+
+  ########## Virtual Host Configs
+  include sites-enabled/*;
+}

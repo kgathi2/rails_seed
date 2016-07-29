@@ -1,0 +1,4 @@
+# find . -name 'Icon?' -delete 
+# Icon? 
+tmp/*
+
