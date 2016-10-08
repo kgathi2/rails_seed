@@ -49,8 +49,8 @@ gem 'sidekiq-cron' # Cron Jobs
 gem 'sidekiq-failures' # Sidekiq failure logging
 gem 'sidekiq-unique-jobs'
 gem 'sidekiq-throttler'
-gem 'sinatra'#, require: false , github: 'sinatra'
-gem "rack-protection"#, github: "sinatra/rack-protection"
+gem 'sinatra', require: false , github: 'sinatra'
+gem "rack-protection", github: "sinatra/rack-protection"
 gem 'pry-rails' # Awesome console
 gem 'carrierwave' # File uploads and manipulation
 gem 'mini_magick' # Image manipulation
@@ -170,23 +170,23 @@ after_bundle do
 	#################################################
 	## Finally please edit the guardfile as suggested
 	## run with 'bundle exec guard'
-	## 
-	## # Add this callback at the end of your test 
+	##
+	## # Add this callback at the end of your test
 	## # suit watcher block to avoid test log bloat
 	## callback(:start_begin)  do
   ##   FileUtils.rm('log/test.log')
   ## end
-	## 
+	##
 	## # group your tasks
 	## group :live, :test do
 	## 	guard 'redis'
 	## end
-	## 
+	##
 	## # Default group to run
-	## scope group: :test 
-	## 
+	## scope group: :test
+	##
 	## Set up the following common gems
-	## 
+	##
 	## gem 'pg_search' # PG full text search
 	## gem 'devise' # Authentication
 	## gem 'pundit' # Authorization
@@ -196,17 +196,17 @@ after_bundle do
 	## gem 'active_decorator' # Decorator for model views
 	## gem 'services' # Authentication
 	## http://brewhouse.io/blog/2014/04/30/gourmet-service-objects.html
-	## 
-	## Set up the server with a 'deploy' user ssh-key 
-	## See readme for script or cloud-config 
-	## Finish Server Setup. Add the server ip address 
+	##
+	## Set up the server with a 'deploy' user ssh-key
+	## See readme for script or cloud-config
+	## Finish Server Setup. Add the server ip address
 	## in config/deploy/[staging.rb | production.rb]
-	## The run: 
-	## 
+	## The run:
+	##
 	## cap [stage] provision
-	## 
+	##
 	## Enjoy
-	## 
+	##
 	## -Kariuki Gathitu
 	#################################################
 
