@@ -1,7 +1,7 @@
 # https://blog.codeship.com/building-a-json-api-with-rails-5/
 def source_paths
-  Array(super) + 
-    [File.expand_path(File.dirname(app_path)), File.expand_path(File.dirname(__FILE__))] 
+  Array(super) +
+    [File.expand_path(File.dirname(app_path)), File.expand_path(File.dirname(__FILE__))]
 end
 
 # To generate locally. Run outside the directory rails_seed
@@ -28,8 +28,8 @@ end
 ############# Run Setup scripts #############
 scripts = %w(
 	rack_attack.rb
-	add_staging.rb 
-	setup_jsonb.rb 
+	add_staging.rb
+	setup_jsonb.rb
 	figaro.rb
 	sidekiq.rb
 	hash_serializer.rb
@@ -48,9 +48,9 @@ gem 'sidekiq' # Background jobs
 gem 'sidekiq-cron' # Cron Jobs
 gem 'sidekiq-failures' # Sidekiq failure logging
 gem 'sidekiq-unique-jobs'
-gem 'sidekiq-throttler' 
-gem 'sinatra', require: false , github: 'sinatra'
-gem "rack-protection", github: "sinatra/rack-protection"
+gem 'sidekiq-throttler'
+gem 'sinatra'#, require: false , github: 'sinatra'
+gem "rack-protection"#, github: "sinatra/rack-protection"
 gem 'pry-rails' # Awesome console
 gem 'carrierwave' # File uploads and manipulation
 gem 'mini_magick' # Image manipulation
@@ -59,14 +59,14 @@ gem 'kaminari' # pagination
 gem 'httparty'
 gem 'dalli'
 gem 'hashie'
-# gem 'devise' 
+# gem 'devise'
 # gem 'omniauth'
 # gem 'jwt'
 # gem 'pundit'
 # gem 'active_model_serializers'
 # gem 'active_decorator'
 # http://brewhouse.io/blog/2014/04/30/gourmet-service-objects.html
-# gem 'services' 
+# gem 'services'
 
 gem_group :development, :test do
 	gem 'awesome_print'
@@ -145,7 +145,7 @@ after_bundle do
 	cap_tasks.each do |file|
 		copy_remote_file('capistrano/tasks','lib/capistrano/tasks',file)
 	end
-	
+
 	copy_remote_file('scripts','','Capfile',:force => true)
 
 	@repo = ask("What git repo should I use. E.g 'git@example.com:me/my_repo.git ?")
