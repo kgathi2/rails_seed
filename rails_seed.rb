@@ -49,10 +49,8 @@ gem 'sidekiq-cron' # Cron Jobs
 gem 'sidekiq-failures' # Sidekiq failure logging
 gem 'sidekiq-unique-jobs'
 gem 'sidekiq-throttler'
-gem 'sinatra', require: false , git: "https://github.com/sinatra/sinatra.git" do
-	gem 'rack-protection'
-end
-gem "rack-protection", git: "https://github.com/sinatra/sinatra/tree/master/rack-protection.git"
+gem 'sinatra', require: false , git: "https://github.com/sinatra/sinatra.git"
+gem 'rack-protection', git: "https://github.com/sinatra/rack-protection.git"
 gem 'pry-rails' # Awesome console
 gem 'carrierwave' # File uploads and manipulation
 gem 'mini_magick' # Image manipulation
