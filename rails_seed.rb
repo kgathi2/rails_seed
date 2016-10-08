@@ -50,9 +50,10 @@ gem 'sidekiq-failures' # Sidekiq failure logging
 gem 'sidekiq-unique-jobs'
 gem 'sidekiq-throttler'
 gem 'sinatra', require: false , git: "https://github.com/sinatra/sinatra.git"
-github 'sinatra/sinatra' do
-  gem 'rack-protection'
-end
+# github 'sinatra/sinatra' do
+#   gem 'rack-protection'
+# end
+gem "rack-protection", github: "sinatra/rack-protection"
 # gem 'rack-protection', git: "https://github.com/sinatra/rack-protection.git"
 gem 'pry-rails' # Awesome console
 gem 'carrierwave' # File uploads and manipulation
