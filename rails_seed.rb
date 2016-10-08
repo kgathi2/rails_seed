@@ -168,15 +168,22 @@ after_bundle do
 
 	say <<-EOF
 	#################################################
-	## Finally please group your guard task for test
-	## and live so that you can run isolated tests
-	## with 'bundle exec guard -g test' e.g 
+	## Finally please edit the guardfile as suggested
+	## run with 'bundle exec guard'
 	## 
+	## # Add this callback at the end of your test 
+	## # suit watcher block to avoid test log bloat
+	## callback(:start_begin)  do
+  ##   FileUtils.rm('log/test.log')
+  ## end
+	## 
+	## # group your tasks
 	## group :live, :test do
 	## 	guard 'redis'
 	## end
 	## 
-	## scope group: :test # setup default
+	## # Default group to run
+	## scope group: :test 
 	## 
 	## Set up the following common gems
 	## 
