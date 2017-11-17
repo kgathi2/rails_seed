@@ -6,6 +6,8 @@ My motivation for not using chef, puppet, ansible etc... was to keep things simp
 
 If you are new to rails application templates, take a look at [Rails Application Templates](http://guides.rubyonrails.org/rails_application_templates.html)
 
+Here is the application that is generated from this template [https://github.com/kgathi2/rails\_seed\_app](https://github.com/kgathi2/rails_seed_app)
+
 ### Version 
 Current < 0.1
 
