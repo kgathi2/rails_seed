@@ -2,7 +2,7 @@
 remove_file 'config/deploy.rb'
 create_file 'config/deploy.rb' do <<-RUBY
 # config valid only for current version of Capistrano
-lock '3.5.0'
+lock '~> 3.11'
 
 set :application, "#{app_name}"
 set :user, 'deploy'
