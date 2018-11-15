@@ -6,11 +6,11 @@ end
 
 # To generate locally. Run outside the directory rails_seed
 # rails new test2 -d postgresql -m ../GitHubPages/t/rails_seed.rb --api -B
-# @link = '.'
+@link = '.'
 
 # rails new test2 -d postgresql -m https://raw.github.com/kgathi2/rails_seed/master/rails_seed.rb --api -B
 # rails new test2 -d postgresql -m https://goo.gl/AMZ2J7 --api -B
-@link = 'https://raw.github.com/kgathi2/rails_seed/master'
+#@link = 'https://raw.github.com/kgathi2/rails_seed/master'
 
 def apply_file(folder,file)
   get "#{@link}/#{folder}/#{file}", "tmp/#{file}"
@@ -49,7 +49,7 @@ gem 'sidekiq-cron' # Cron Jobs
 gem 'sidekiq-failures' # Sidekiq failure logging
 gem 'sidekiq-unique-jobs'
 gem 'sidekiq-throttler'
-gem 'sinatra', require: false , git: "https://github.com/sinatra/sinatra.git"
+gem 'sinatra', require: false
 # gem 'rack-protection', git: 'https://github.com/sinatra/sinatra.git'
 gem 'pry-rails' # Awesome console
 gem 'carrierwave' # File uploads and manipulation
@@ -85,7 +85,7 @@ end
 # Deployment
 gem_group :development do
   # gem 'capistrano-harrow', git: 'https://github.com/harrowio/capistrano-harrow', tag: '0.3.1'
-  gem 'capistrano'
+  gem 'capistrano', '~> 3.11'
   gem 'capistrano-rails'
   gem 'capistrano-bundler', require: false
   gem 'rvm1-capistrano3', require: false
