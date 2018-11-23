@@ -37,8 +37,14 @@ namespace :setup do
   desc 'Setup Postgresql'
   task :postgresql do
   	on roles(:db) do
-  		invoke 'postgresql:create_database'
-  	end
+      as 'postgres' do
+        if !test 'psql -d postgres -c "\\du" | grep deploy'
+          invoke 'postgresql:create_database'
+        else
+          info "Databases already created."
+        end
+      end
+    end
   end
 
   desc 'Set up Ruby'
@@ -87,16 +93,25 @@ namespace :setup do
     end
   end
 
-  desc 'Setup Sidekiq Upstart'
-  task :sidekiq_upstart do
+  desc 'Setup Sidekiq'
+  task :sidekiq do
     on roles :app do
       execute "mkdir -p \#{shared_path}/config"
       
-      template 'sidekiq_upstart.erb', '/tmp/sidekiq_conf'
-      execute :sudo, "mv /tmp/sidekiq_conf \#{fetch(:upstart_sidekiq_config)}"
+      version = capture("lsb_release -r | awk '{print $2}'").to_f
+      if version >= 15.04
+        info("Setting up sidekiq with systemd")
+        template 'sidekiq_systemd.erb', '/tmp/sidekiq.service'
+        execute :sudo, "mv /tmp/sidekiq.service \#{fetch(:systemd_sidekiq_config)}"
+        execute :sudo, "systemctl enable sidekiq"
+      else
+        info("Setting up sidekiq with upstart")
+        template 'sidekiq_upstart.erb', '/tmp/sidekiq_conf'
+        execute :sudo, "mv /tmp/sidekiq_conf \#{fetch(:upstart_sidekiq_config)}"
 
-      template 'worker_upstart.erb', '/tmp/worker_conf'
-      execute :sudo, "mv /tmp/worker_conf \#{fetch(:upstart_worker_config)}"
+        template 'worker_upstart.erb', '/tmp/worker_conf'
+        execute :sudo, "mv /tmp/worker_conf \#{fetch(:upstart_worker_config)}"
+      end
     end
   end
 
@@ -131,7 +146,7 @@ namespace :setup do
     invoke "setup:gems"
     invoke "setup:postfix"
     invoke "setup:firewall"
-    invoke "setup:sidekiq_upstart"
+    invoke "setup:sidekiq"
     invoke "setup:ssl_cert"
     invoke "setup:nginx_puma"
     invoke "setup:finalize"

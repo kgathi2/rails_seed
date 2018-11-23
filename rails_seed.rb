@@ -118,6 +118,7 @@ after_bundle do
     memcached.erb
     nginx.erb
     sidekiq_upstart.erb
+    sidekiq_systemd.erb
     worker_upstart.erb
     )
 
